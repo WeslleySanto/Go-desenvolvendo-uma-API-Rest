@@ -9,8 +9,8 @@ import (
 
 func main() {
 	models.Personalidades = []models.Personalidade{
-		{"Nome 1", "Historia 1"},
-		{"Nome 2", "Historia 2"},
+		{1, "Nome 1", "Historia 1"},
+		{2, "Nome 2", "Historia 2"},
 	}
 
 	fmt.Println("Iniciando o servidor Rest com GO")
