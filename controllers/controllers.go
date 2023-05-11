@@ -20,14 +20,38 @@ func GetAllPersonalities(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(personalidades)
 }
 
-func GetPersonalitiesById(w http.ResponseWriter, r *http.Request) {
+func getIdByRequest(r *http.Request) string {
 	vars := mux.Vars(r)
 
-	id := vars["id"]
+	return vars["id"]
+}
+
+func GetPersonalitiesById(w http.ResponseWriter, r *http.Request) {
 
 	var personalidade []models.Personalidade
 
-	database.DB.First(&personalidade, id)
+	database.DB.First(&personalidade, getIdByRequest(r))
 
+	json.NewEncoder(w).Encode(personalidade)
+}
+
+func CreatePersonalities(w http.ResponseWriter, r *http.Request) {
+	var novaPersonalidade models.Personalidade
+	json.NewDecoder(r.Body).Decode(&novaPersonalidade)
+	database.DB.Create(&novaPersonalidade)
+	json.NewEncoder(w).Encode(novaPersonalidade)
+}
+
+func DeletePersonalities(w http.ResponseWriter, r *http.Request) {
+	var personalidade models.Personalidade
+	database.DB.Delete(&personalidade, getIdByRequest(r))
+	json.NewEncoder(w).Encode(personalidade)
+}
+
+func EditPersonalities(w http.ResponseWriter, r *http.Request) {
+	var personalidade models.Personalidade
+	database.DB.First(&personalidade, getIdByRequest(r))
+	json.NewDecoder(r.Body).Decode(&personalidade)
+	database.DB.Save(&personalidade)
 	json.NewEncoder(w).Encode(personalidade)
 }
