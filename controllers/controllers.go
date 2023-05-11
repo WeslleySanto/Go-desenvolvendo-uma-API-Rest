@@ -22,16 +22,12 @@ func GetAllPersonalities(w http.ResponseWriter, r *http.Request) {
 
 func getIdByRequest(r *http.Request) string {
 	vars := mux.Vars(r)
-
 	return vars["id"]
 }
 
 func GetPersonalitiesById(w http.ResponseWriter, r *http.Request) {
-
 	var personalidade []models.Personalidade
-
 	database.DB.First(&personalidade, getIdByRequest(r))
-
 	json.NewEncoder(w).Encode(personalidade)
 }
 
